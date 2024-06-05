@@ -10,13 +10,28 @@ export class Sensor {
 
   #isHumanPayerBulletDetected = false;
 
-  detectHumanPlayerBullet(hp_bullet) {
+  detectHumanPlayerBullet(hp_bullet, isHit, game) {
     this.#isHumanPayerBulletDetected = circleTriangleIntersection(
       hp_bullet,
       this
     );
     if (this.#isHumanPayerBulletDetected) {
-      console.log("bullet detected");
+      // Update the bullet feature information with 'this' player (AI player)
+      hp_bullet.updateFeatures(this.player);
+
+      let hit = isHit();
+
+      // Check if the bullet actually hits
+      if (hit) {
+        // Update AI player lives
+        this.player.looseLive();
+        if (this.player.getLives() === 0) {
+          game.end(this.player, "You won!", true);
+        }
+      }
+
+      // Update the bullet hit status of the player (AI player)
+      this.player.updateBulletHitStatus(hp_bullet, hit);
     }
   }
 

@@ -10,6 +10,7 @@ export class AI_Player extends Player {
   }
 
   #direction = 1;
+  #lives = 3;
 
   getDirection() {
     if (!this.motion()) {
@@ -18,9 +19,40 @@ export class AI_Player extends Player {
 
     return this.#direction;
   }
+
   changeDirection() {
     if (this.#direction === 1) this.#direction = -1;
     else if (this.#direction === -1) this.#direction = 1;
+  }
+
+  looseLive() {
+    this.#lives -= 1;
+  }
+
+  getLives() {
+    return this.#lives;
+  }
+
+  updateBulletHitStatus(bullet, hit) {
+    bullet.hit = hit;
+    bullet.updateFeatures(this);
+    this.collectedData.push({
+      features: bullet.features,
+      hit: bullet.hit ? 1 : 0,
+    });
+    console.log(hit ? "Hit" : "Miss", bullet.features);
+  }
+
+  saveCollectedData() {
+    const json = JSON.stringify(this.collectedData);
+    const blob = new Blob([json], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "bullet_data.json";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
   }
   draw() {
     drawPlayerHead(this.x_body + playerWidth / 4, this.y_head, this.color);

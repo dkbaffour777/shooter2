@@ -5,6 +5,7 @@ export class Game {
     this.msgEle = msgEle;
   }
   #mode = "play";
+  #speed = 0;
   getMode() {
     return this.#mode;
   }
@@ -18,7 +19,7 @@ export class Game {
     this.players.map((player) => player.startMotion());
     this.msgEle.textContent = "";
   }
-  end(msg) {
+  end(ai_player, msg, isSaveBulletData) {
     this.players.map((player) => {
       player.stopMotion();
       player.emptyBullets();
@@ -28,5 +29,12 @@ export class Game {
       alert(msg);
       document.location.reload();
     }, 1000);
+    isSaveBulletData && ai_player.saveCollectedData();
+  }
+  setSpeed(speed) {
+    this.#speed = speed;
+  }
+  getSpeed() {
+    return this.#speed;
   }
 }

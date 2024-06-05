@@ -74,6 +74,7 @@ const _players = [human_player, ai_player];
 const _intervals = [human_ammo_interval, ai_bullet_interval];
 const _msgEle = document.querySelector("#gmsg");
 const game = new Game(_players, _intervals, _msgEle);
+game.setSpeed(-4);
 
 const draw = () => {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -83,28 +84,28 @@ const draw = () => {
 
   human_player.getBullets().map(({ id, bullet }) => {
     bullet.draw();
+
+    // Set bullet in motion
+    if (game.getMode() === "play") {
+      bullet.y -= bullet.spd + game.getSpeed();
+    }
+
     let x_pl_AI = ai_player.x_body + playerWidth / 4;
-    // Collosion detection when the human player's bullet hits the head of the AI player
-    if (
-      bullet.y < ai_player.y_head + 2 * playerHeight + bulletRadius &&
-      bullet.x > x_pl_AI &&
-      bullet.x < x_pl_AI + playerWidth / 2
-    ) {
-      bullet.y += 0;
-      game.end("You won!");
-    } else {
-      if (game.getMode() === "play") {
-        bullet.y -= bullet.spd;
-      }
+    function isHit() {
+      return (
+        bullet.y < ai_player.y_head + 2 * playerHeight + bulletRadius &&
+        bullet.x > x_pl_AI &&
+        bullet.x < x_pl_AI + playerWidth / 2
+      );
+    }
 
-      // Detect human player bullet using the AI player's sensor
-      ai_player.sensor.detectHumanPlayerBullet(bullet);
+    // Detect human player bullet using the AI player's sensor
+    ai_player.sensor.detectHumanPlayerBullet(bullet, isHit, game);
 
-      // Remove the bullet from the bullets array when it misses the target
-      // For memory management
-      if (bullet.y < bulletRadius) {
-        human_player.removeBullet(id);
-      }
+    // Remove the bullet from the bullets array when it misses the target
+    // For memory management
+    if (bullet.y < bulletRadius) {
+      human_player.removeBullet(id);
     }
   });
 
@@ -121,7 +122,7 @@ const draw = () => {
       game.end("Game over. Player AI won!");
     } else {
       if (game.getMode() === "play") {
-        bullet.y += bullet.spd;
+        bullet.y += bullet.spd + game.getSpeed();
       }
 
       // Remove the bullet from the bullets array when it misses the target
@@ -172,12 +173,12 @@ const draw = () => {
     ai_player.getDirection() === 1 &&
     ai_player.x_body < canvas.width - playerWidth
   ) {
-    ai_player.x_body += 7;
+    ai_player.x_body += 7 + game.getSpeed();
     if (ai_player.x_body > canvas.width - playerWidth) {
       ai_player.changeDirection();
     }
   } else if (ai_player.getDirection() === -1 && ai_player.x_body > 0) {
-    ai_player.x_body -= 7;
+    ai_player.x_body -= 7 + game.getSpeed();
     if (ai_player.x_body < 0) {
       ai_player.changeDirection();
     }
