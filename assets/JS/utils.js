@@ -1,4 +1,5 @@
 import { ctx } from "./canvas.js";
+import { keyDownHandler, keyUpHandler } from "./playerControls.js";
 
 const drawRectangle = (x, y, width, height, color) => {
   ctx.beginPath();
@@ -59,4 +60,17 @@ export function circleTriangleIntersection(bullet, sensor) {
 // Helper function to clamp a value within a range
 function clamp(value, min, max) {
   return Math.min(Math.max(value, min), max);
+}
+
+export function navigationEventListeners() {
+  document.querySelector("#open-inst").addEventListener("click", () => {
+    document.querySelector("#inst").style.display = "flex";
+  });
+
+  document.querySelector("#close-inst").addEventListener("click", () => {
+    document.querySelector("#inst").style.display = "none";
+  });
+
+  document.addEventListener("keydown", keyDownHandler, false);
+  document.addEventListener("keyup", keyUpHandler, false);
 }

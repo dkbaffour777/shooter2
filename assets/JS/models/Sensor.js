@@ -26,7 +26,7 @@ export class Sensor {
         // Update AI player lives
         this.player.looseLive();
         if (this.player.getLives() === 0) {
-          game.end(this.player, "You won!", true);
+          game.end(this.player, "You won!", false);
         }
       }
 

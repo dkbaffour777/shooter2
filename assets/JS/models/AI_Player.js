@@ -40,7 +40,6 @@ export class AI_Player extends Player {
       features: bullet.features,
       hit: bullet.hit ? 1 : 0,
     });
-    console.log(hit ? "Hit" : "Miss", bullet.features);
   }
 
   saveCollectedData() {

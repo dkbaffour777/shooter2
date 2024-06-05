@@ -1,13 +1,23 @@
+import { startGame } from "../startGame.js";
+
 export class Game {
-  constructor(players, intervals, msgEle) {
-    this.players = players;
-    this.intervals = intervals;
-    this.msgEle = msgEle;
+  constructor() {
+    this.players = null;
+    this.intervals = null;
+    this.msgEle = null;
   }
   #mode = "play";
   #speed = 0;
   getMode() {
     return this.#mode;
+  }
+  instantiateVals(players, intervals, msgEle) {
+    this.players = players;
+    this.intervals = intervals;
+    this.msgEle = msgEle;
+  }
+  start() {
+    startGame(this);
   }
   pause() {
     this.#mode = "pause";
