@@ -97,6 +97,14 @@
         <p>Training AI model, please wait...</p>
         <img src="./assets/images/loading-loader.gif" alt="loading_loader" width="100px" />
     </div>
+    <div id="trncmpt">
+        <div style="width: 750px;">
+            <h1>Model Accuracy Visualization</h1>
+            <div id="test-accuracy"></div>
+            <div id="confusion-matrix" class="dtvs"></div>
+        </div>
+        <button id="close-trncmpt">Close</button>
+    </div>
     <div id="inst">
         <h1>Instructions on how to play the game: </h1>
         <div class="img-des">
@@ -124,6 +132,7 @@
         <button id="open-inst">Game Instructions</button>
         <button>Pause</button>
         <button>Play</button>
+        <button id="open-trncmpt">Data Analysis</button>
     </div>
     <div style="color: #fff; margin: 20px auto;">AI Model Prediction: <span id="aimsg">No bullet detected.</span></div>
     <div style="color: #fff; margin: 5px auto;">AI Player Lives: <span id="lives"
@@ -136,6 +145,7 @@
 
     <script type="module" src="./assets/JS/index.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.9.0/dist/tf.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </body>
 
 </html>

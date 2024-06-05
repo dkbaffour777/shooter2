@@ -73,6 +73,14 @@ export function navigationEventListeners() {
     document.querySelector("#inst").style.display = "none";
   });
 
+  document.querySelector("#open-trncmpt").addEventListener("click", () => {
+    document.querySelector("#trncmpt").style.display = "flex";
+  });
+
+  document.querySelector("#close-trncmpt").addEventListener("click", () => {
+    document.querySelector("#trncmpt").style.display = "none";
+  });
+
   document.addEventListener("keydown", keyDownHandler, false);
   document.addEventListener("keyup", keyUpHandler, false);
 }
