@@ -1,5 +1,8 @@
+import {
+  createCorrelationHeatmap,
+  createHistograms,
+} from "./bulletDataAnalysis.js";
 import { evaluateModel } from "./evaluateModel.js";
-import { Game } from "./models/Game.js";
 
 import { trainModel } from "./trainModel.js";
 import { navigationEventListeners } from "./utils.js";
@@ -11,9 +14,9 @@ trainModel().then(({ model, features, labels, history }) => {
   // Evaluate the model
   evaluateModel(model, features, labels, history);
 
-  // Start game after model is trained
-  const game = new Game();
-  game.start();
+  // Provide bullet data analysis
+  createCorrelationHeatmap();
+  createHistograms();
 
   // Screen navigation event listeners
   // This is where the game is started
