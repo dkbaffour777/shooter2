@@ -1,4 +1,5 @@
 import { ctx } from "../canvas.js";
+import { predictBulletHit } from "../index.js";
 import { circleTriangleIntersection } from "../utils.js";
 
 export class Sensor {
@@ -10,27 +11,45 @@ export class Sensor {
 
   #isHumanPayerBulletDetected = false;
 
-  detectHumanPlayerBullet(hp_bullet, isHit, game) {
+  async detectHumanPlayerBullet(hp_bullet, isHit, game) {
     this.#isHumanPayerBulletDetected = circleTriangleIntersection(
       hp_bullet,
       this
     );
     if (this.#isHumanPayerBulletDetected) {
-      // Update the bullet feature information with 'this' player (AI player)
+      // Human player bullet has been detected
       hp_bullet.updateFeatures(this.player);
+
+      let willHit = await predictBulletHit(hp_bullet.features);
+      if (willHit) {
+        // Predict will hit
+        document.querySelector("#aimsg").innerHTML =
+          "Will hit, change direction!";
+        document.querySelector("#aimsg").style.color = "Red";
+        this.player.changeDirection();
+      } else {
+        // Predict will miss
+        document.querySelector("#aimsg").innerHTML = "Will Miss!";
+        document.querySelector("#aimsg").style.color = "rgb(16, 218, 33)";
+      }
 
       let hit = isHit();
 
-      // Check if the bullet actually hits
+      // Check if it actually hit ie when the prediction fails
       if (hit) {
+        // Update hit count
+        this.player.addHit();
+        document.querySelector("#hits").innerHTML = `${this.player.getHits()}`;
+
         // Update AI player lives
         this.player.looseLive();
+        document.querySelector(
+          "#lives"
+        ).innerHTML = `${this.player.getLives()}`;
         if (this.player.getLives() === 0) {
           game.end(this.player, "You won!", false);
         }
       }
-
-      // Update the bullet hit status of the player (AI player)
       this.player.updateBulletHitStatus(hp_bullet, hit);
     }
   }

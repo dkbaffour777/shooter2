@@ -63,6 +63,8 @@ function clamp(value, min, max) {
 }
 
 export function navigationEventListeners() {
+  document.querySelector("#ldgm").style.display = "none";
+
   document.querySelector("#open-inst").addEventListener("click", () => {
     document.querySelector("#inst").style.display = "flex";
   });

@@ -10,7 +10,8 @@ export class AI_Player extends Player {
   }
 
   #direction = 1;
-  #lives = 3;
+  #lives = 25;
+  #hits = 0;
 
   getDirection() {
     if (!this.motion()) {
@@ -31,6 +32,14 @@ export class AI_Player extends Player {
 
   getLives() {
     return this.#lives;
+  }
+
+  addHit() {
+    this.#hits += 1;
+  }
+
+  getHits() {
+    return this.#hits;
   }
 
   updateBulletHitStatus(bullet, hit) {

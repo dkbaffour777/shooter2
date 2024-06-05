@@ -8,10 +8,12 @@ export class Human_Player extends Player {
     this.#bulletCount = this.#bulletLimit;
   }
   getBulletCount() {
+    document.querySelector("#bulletLeft").innerHTML = `${this.#bulletCount}`;
     return this.#bulletCount;
   }
   useBullet() {
     this.#bulletCount -= 1;
+    document.querySelector("#bulletLeft").innerHTML = `${this.#bulletCount}`;
   }
   addAmmo(ammo) {
     this.#ammoPack.push(ammo);

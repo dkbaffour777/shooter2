@@ -12,47 +12,77 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            height: 96vh;
             background-color: rgb(0, 0, 0);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        #inst {
+
+        #inst,
+        #ldgm,
+        #trncmpt {
             position: fixed;
             background-color: rgba(0, 0, 0, .9);
             width: 100vw;
             height: 100vh;
             color: #fff;
             z-index: 999;
-            display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+        }
+
+        #ldgm {
+            display: flex;
+        }
+
+        #inst,
+        #trncmpt {
             display: none;
         }
+
+        #trncmpt {
+            justify-content: flex-start;
+            align-items: center;
+            gap: 10px;
+            overflow-y: scroll;
+        }
+
+        .dtvs {
+            margin: 4px auto;
+        }
+
         #gmsg {
             color: rgb(16, 218, 33);
         }
+
         .img-des {
             border: 1px solid #777;
             text-align: center;
             padding: 10px;
         }
+
         #inst ul {
             padding: 0;
         }
-        #menu{
+
+        #menu {
             margin: 10px 0;
+            display: flex;
+            gap: 10px;
         }
+
         button {
             border: 1px solid #eee;
             background-color: #eee;
             padding: 10px;
             cursor: pointer;
         }
+
         button:hover {
             color: #fff;
             background-color: rgb(0, 0, 0);
         }
+
         canvas {
             border: 3px solid #888;
             background: rgb(0, 0, 0);
@@ -63,27 +93,31 @@
 </head>
 
 <body>
+    <div id="ldgm">
+        <p>Training AI model, please wait...</p>
+        <img src="./assets/images/loading-loader.gif" alt="loading_loader" width="100px" />
+    </div>
     <div id="inst">
         <h1>Instructions on how to play the game: </h1>
         <div class="img-des">
             <p>This is your player(human player), the highlighted part(red color) is the head of the player</p>
-            <img src="./assets/images/human_player_head.png" alt="human_player_head" width="100px"/>
+            <img src="./assets/images/human_player_head.png" alt="human_player_head" width="100px" />
         </div>
         <div class="img-des">
             <p>This is the AI player, the highlighted part(sky blue) is the head of the player</p>
-            <img src="./assets/images/ai_player_head.png" alt="ai_player_head" width="100px"/>
+            <img src="./assets/images/ai_player_head.png" alt="ai_player_head" width="100px" />
         </div>
         <ul>
             <li>Click play to start the game</li>
             <li>Click pause to pause the game</li>
             <li>Use your mouse/trackpad/left arrow/right arrow, to move your player to the left or right</li>
             <li>Click anywhere with your mouse or trackpad to shoot</li>
-            <li>You only have 2 ammo material when you shoot so aim well</li>
-            <li>Your ammo will reset to 2 again when you catch the green ball with your head</li>
+            <li>You only have a limited number of bullets to shoot so aim well</li>
+            <li>Your ammo will reset to the limit again when you catch the green ball with your head</li>
             <li>You win when your bullet hits the head of the AI player</li>
             <li>You loose when the bullet of the AI player hits your head</li>
         </ul>
-        <button id="close-inst">Close</button>
+        <button id="close-inst" style="margin-bottom: 50px;">Close</button>
     </div>
     <div id="gmsg"></div>
     <div id="menu">
@@ -91,8 +125,17 @@
         <button>Pause</button>
         <button>Play</button>
     </div>
+    <div style="color: #fff; margin: 20px auto;">AI Model Prediction: <span id="aimsg">No bullet detected.</span></div>
+    <div style="color: #fff; margin: 5px auto;">AI Player Lives: <span id="lives"
+            style="color: rgb(16, 218, 33);">0</span></div>
+    <div style="color: #fff; margin: 5px auto;">Human Player Bullet Hits: <span id="hits"
+            style="color: rgb(235, 26, 12);">0</span></div>
     <canvas id="myCanvas" width="800" height="500"></canvas>
+    <div style="color: #fff; margin-top: 20px;">Your remaining bullet count: <span id="bulletLeft"
+            style="color: rgb(0, 200, 255);">0</span></div>
+
     <script type="module" src="./assets/JS/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.9.0/dist/tf.min.js"></script>
 </body>
 
 </html>

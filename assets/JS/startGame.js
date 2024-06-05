@@ -46,6 +46,9 @@ export function startGame(game) {
       human_ammo_id.next();
     }
   }, 5000);
+  document.querySelector(
+    "#bulletLeft"
+  ).innerHTML = `${human_player.getBulletCount()}`;
 
   // Create the AI player object
   const ai_player = new AI_Player(
@@ -54,6 +57,7 @@ export function startGame(game) {
     0,
     "red"
   );
+  document.querySelector("#lives").innerHTML = `${ai_player.getLives()}`;
 
   // Create a new ID generator for the AI player's bullets
   const ai_bullets_id = new IdGenerator();
@@ -146,6 +150,9 @@ export function startGame(game) {
         ammo.y += 0;
 
         human_player.resetBulletCount();
+        document.querySelector(
+          "#bulletLeft"
+        ).innerHTML = `${human_player.getBulletCount()}`;
         human_player.removeAmmo(id);
       } else {
         if (game.getMode() === "play") {
