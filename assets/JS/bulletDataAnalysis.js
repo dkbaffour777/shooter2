@@ -21,31 +21,48 @@ function preprocessData(data) {
     }));
 }
 
-// Function to create histograms for each feature
+// Function to create histograms for bullet_x and ai_x based on hit/miss
 async function createHistograms() {
   const rawData = await fetchBulletData();
   const data = preprocessData(rawData);
 
-  const features = [
-    "bullet_x",
-    "bullet_y",
-    "bullet_spd",
-    "ai_x",
-    "ai_y_head",
-    "ai_y_body",
-    "ai_direction",
-  ];
+  const hits = data.filter((d) => d.hit === 1);
+  const misses = data.filter((d) => d.hit === 0);
 
-  const traces = features.map((feature) => ({
-    x: data.map((d) => d[feature]),
-    type: "histogram",
-    name: feature,
-    opacity: 0.75,
-  }));
+  const traces = [
+    {
+      x: hits.map((d) => d.bullet_x),
+      type: "histogram",
+      name: "bullet_x (hit)",
+      marker: { color: "red" },
+      opacity: 0.75,
+    },
+    {
+      x: misses.map((d) => d.bullet_x),
+      type: "histogram",
+      name: "bullet_x (miss)",
+      marker: { color: "blue" },
+      opacity: 0.75,
+    },
+    {
+      x: hits.map((d) => d.ai_x),
+      type: "histogram",
+      name: "ai_x (hit)",
+      marker: { color: "red" },
+      opacity: 0.75,
+    },
+    {
+      x: misses.map((d) => d.ai_x),
+      type: "histogram",
+      name: "ai_x (miss)",
+      marker: { color: "blue" },
+      opacity: 0.75,
+    },
+  ];
 
   const layout = {
     barmode: "overlay",
-    title: "Feature Distributions",
+    title: "Distribution of bullet_x and ai_x Based on Hit/Miss",
   };
 
   Plotly.newPlot("histograms", traces, layout);
