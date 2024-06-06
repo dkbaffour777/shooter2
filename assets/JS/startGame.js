@@ -3,15 +3,12 @@ import { canvas, ctx } from "./canvas.js";
 // Utils
 import { playerHeight, playerWidth } from "./utils.js";
 // Models
-import { Game } from "./models/Game.js";
 import { AI_Player } from "./models/AI_Player.js";
 import { Human_Player } from "./models/Human_Player.js";
 import { Bullet, bulletRadius } from "./models/Bullet.js";
 import { IdGenerator } from "./models/IdGenerator.js";
 // Player Controls
 import {
-  keyDownHandler,
-  keyUpHandler,
   mouseMoveHandler,
   leftPressed,
   rightPressed,
