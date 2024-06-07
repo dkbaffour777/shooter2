@@ -121,7 +121,7 @@ export function startGame(game) {
         bullet.x < x_pl_human + playerWidth / 2
       ) {
         bullet.y += 0;
-        game.end("Game over. Player AI won!");
+        game.end(ai_player, "Game over. Player AI won!", false);
       } else {
         if (game.getMode() === "play") {
           bullet.y += bullet.spd + game.getSpeed();

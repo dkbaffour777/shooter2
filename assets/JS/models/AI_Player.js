@@ -10,7 +10,7 @@ export class AI_Player extends Player {
   }
 
   #direction = 1;
-  #lives = 25;
+  #lives = 15;
   #hits = 0;
 
   getDirection() {
