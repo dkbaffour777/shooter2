@@ -1,6 +1,6 @@
 # Shooter 2
 
-Version two of the [shooter](https://github.com/dkbaffour777/shooter) game which implements a trained machine learning model to make predictions which the AI player uses for defense.
+This is the version two of the [shooter](https://github.com/dkbaffour777/shooter) game which implements a trained machine learning model (Supervised Neural Network) to make predictions which the AI player uses for defense.
 
 Deployed link - [shooter2](https://dkbaffour777.github.io/shooter2)
 
@@ -17,7 +17,12 @@ Deployed link - [shooter2](https://dkbaffour777.github.io/shooter2)
 
 ## Usage
 
-- Watch this video for usage demonstration:
+- Watch this [video](https://youtu.be/ez7TToDV7C4) for usage demonstration
+  - This is a comprehensive video tutorial (11 minutes, 6 seconds long) that covers the following:
+    - Application start and model training
+    - Data visualization with explanation (starts at the 0:49 mark)
+    - Game instructions (starts at the 5:00 mark)
+    - The implementation of the trained model in gameplay (starts at the 7:39 mark)
 
 ## Questions
 
