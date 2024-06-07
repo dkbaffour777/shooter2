@@ -60,6 +60,11 @@ export async function trainModel() {
     callbacks: tf.callbacks.earlyStopping({ monitor: "val_loss", patience: 5 }),
   });
 
+  // Accessing validation results
+  const validationAccuracy = history.history.val_acc;
+  console.log("Validation Accuracy:", validationAccuracy);
+
+  // Model training complete message
   document.querySelector("#ldgm").style.display = "none"; // Hides a loading element
   alert("Model trained!");
 
