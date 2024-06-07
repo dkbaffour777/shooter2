@@ -2,7 +2,7 @@
 
 Version two of the [shooter](https://github.com/dkbaffour777/shooter) game which implements a trained machine learning model to make predictions which the AI player uses for defense.
 
-Deployed link -[shooter2](https://dkbaffour777.github.io/shooter2)
+Deployed link - [shooter2](https://dkbaffour777.github.io/shooter2)
 
 !['app'](assets/images/app.PNG)
 
