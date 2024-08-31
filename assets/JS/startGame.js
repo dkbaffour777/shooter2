@@ -194,21 +194,22 @@ export function startGame(game) {
 
   draw();
 
+  // Enable shooting when the human player has ammo
+  const shoot = () => {
+    if (human_player.getBulletCount() > 0 && game.getMode() === "play") {
+      let x = human_player.x_body + playerWidth / 4 + playerWidth / 4;
+      let y = canvas.height - 2 * playerHeight - bulletRadius;
+      let spd = 10;
+      human_player.addBullet({
+        id: human_bullet_id.get(),
+        bullet: new Bullet(x, y, spd, "#0095DD"),
+      });
+      human_bullet_id.next();
+      human_player.useBullet();
+    }
+  };
+
   document.addEventListener("click", (e) => {
-    // Enable shooting when the human player has ammo
-    const doDefault = () => {
-      if (human_player.getBulletCount() > 0 && game.getMode() === "play") {
-        let x = human_player.x_body + playerWidth / 4 + playerWidth / 4;
-        let y = canvas.height - 2 * playerHeight - bulletRadius;
-        let spd = 10;
-        human_player.addBullet({
-          id: human_bullet_id.get(),
-          bullet: new Bullet(x, y, spd, "#0095DD"),
-        });
-        human_bullet_id.next();
-        human_player.useBullet();
-      }
-    };
     switch (e.target.outerText) {
       case "Play":
         game.play();
@@ -220,14 +221,35 @@ export function startGame(game) {
         game.pause();
         break;
       default:
-        doDefault();
+        if (!game.getIsMobileView()) shoot(); // Only allow shooting upon clicking in desktop view
         break;
     }
   });
 
-  document.addEventListener(
-    "mousemove",
-    (ele) => mouseMoveHandler(ele, human_player, canvas),
-    false
-  );
+  function handleResize() {
+    const screenWidth = window.innerWidth;
+
+    const _mouseMoveHandle = (ele) =>
+      mouseMoveHandler(ele, human_player, canvas);
+    if (screenWidth <= 1280) {
+      game.setIsMobileView(true);
+      document.removeEventListener("mousemove", _mouseMoveHandle, false);
+    } else {
+      game.setIsMobileView(false);
+      document.addEventListener("mousemove", _mouseMoveHandle, false);
+    }
+  }
+
+  handleResize(); // Check if mobile view upon game start
+  window.addEventListener("resize", handleResize, false);
+
+  // Enable shooting in mobile view
+  document.querySelector("#fire").addEventListener("touchstart", () => {
+    shoot();
+    document.querySelector(`#fire`).style.backgroundColor = "#1298a9";
+  });
+
+  document.querySelector("#fire").addEventListener("touchend", () => {
+    document.querySelector(`#fire`).style.backgroundColor = "#777";
+  });
 }

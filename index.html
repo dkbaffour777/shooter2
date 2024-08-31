@@ -6,33 +6,43 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shooter 2</title>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <style>
         body {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 96vh;
+            margin: 0px;
+            padding: 0px;
             background-color: rgb(0, 0, 0);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        #mn-cnt {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: auto;
+            position: relative;
         }
 
         #inst,
         #ldgm,
         #trncmpt {
-            position: fixed;
             background-color: rgba(0, 0, 0, .9);
             width: 100vw;
             height: 100vh;
             color: #fff;
             z-index: 999;
+            position: absolute;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
         }
 
         #ldgm {
             display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         #inst,
@@ -41,10 +51,13 @@
         }
 
         #trncmpt {
-            justify-content: flex-start;
-            align-items: center;
             gap: 10px;
             overflow-y: scroll;
+            align-items: center;
+        }
+
+        .trncmpt-sec {
+            width: 700px;
         }
 
         .dtvs {
@@ -86,68 +99,126 @@
         canvas {
             border: 3px solid #888;
             background: rgb(0, 0, 0);
-            perspective: 700px;
             z-index: 0;
+            width: 60vh;
+        }
+
+        #ctrls-cnt {
+            display: none;
+        }
+
+        @media only screen and (max-width: 1280px) {
+            #mn-cnt {
+                margin-top: 2vh;
+                justify-content: flex-start;
+            }
+
+            #ctrls-cnt {
+                width: 70%;
+                margin: 40px auto;
+                display: flex;
+                justify-content: space-between;
+                color: #fff;
+            }
+
+            #ctrls-cnt span {
+                background-color: #777;
+                padding: 20px;
+                border-radius: 100%;
+                cursor: pointer;
+            }
+        }
+
+        @media only screen and (max-width: 815px) {
+            #mn-cnt {
+                margin-top: unset;
+                justify-content: center;
+            }
+
+            #trncmpt {
+                justify-content: unset;
+                align-items: unset;
+            }
+
+            canvas {
+                width: 98vw;
+                height: fit-content;
+            }
         }
     </style>
 </head>
 
 <body>
-    <div id="ldgm">
-        <p>Training ML model, please wait...</p>
-        <img src="./assets/images/loading-loader.gif" alt="loading_loader" width="100px" />
-    </div>
-    <div id="trncmpt">
-        <div style="width: 750px;">
-            <h1>Model Accuracy Visualization</h1>
-            <div id="test-accuracy"></div>
-            <div id="confusion-matrix" class="dtvs"></div>
+    <div id="mn-cnt">
+        <div id="ldgm">
+            <p>Training ML model, please wait...</p>
+            <img src="./assets/images/loading-loader.gif" alt="loading_loader" width="100px" />
         </div>
-        <div style="width: 750px; margin-bottom: 50px;">
-            <h1>Bullet Data Analysis & Visualization</h1>
-            <div id="correlation-heatmap" style="margin-bottom: 8px;"></div>
-            <div id="histograms" style="margin: 50px 0px;"></div>
-            <button id="close-trncmpt">Close</button>
+        <div id="trncmpt">
+            <div class="trncmpt-sec">
+                <h1>Model Accuracy Visualization</h1>
+                <div id="test-accuracy"></div>
+                <div id="confusion-matrix" class="dtvs"></div>
+            </div>
+            <div class="trncmpt-sec" style="margin-bottom: 50px;">
+                <h1>Bullet Data Analysis & Visualization</h1>
+                <div id="correlation-heatmap" style="margin-bottom: 8px;"></div>
+                <div id="histograms" style="margin: 50px 0px;"></div>
+                <button id="close-trncmpt">Close</button>
+            </div>
+        </div>
+        <div id="inst">
+            <h1>Instructions on how to play the game: </h1>
+            <div class="img-des">
+                <p>This is your player(human player), the highlighted part(red color) is the head of the player</p>
+                <img src="./assets/images/human_player_head.png" alt="human_player_head" width="100px" />
+            </div>
+            <div class="img-des">
+                <p>This is the AI player, the highlighted part(sky blue) is the head of the player</p>
+                <img src="./assets/images/ai_player_head.png" alt="ai_player_head" width="100px" />
+            </div>
+            <ul>
+                <li>Click play to start the game</li>
+                <li>Click pause to pause the game</li>
+                <li>Use your mouse/trackpad/left arrow/right arrow, to move your player to the left or right</li>
+                <li>Click anywhere with your mouse or trackpad to shoot</li>
+                <li>You only have a limited number of bullets to shoot so aim well</li>
+                <li>Your ammo will reset to the limit again when you catch the green ball with your head</li>
+                <li>You win when your bullet hits the head of the AI player</li>
+                <li>You loose when the bullet of the AI player hits your head</li>
+            </ul>
+            <button id="close-inst" style="margin-bottom: 50px;">Close</button>
+        </div>
+        <div id="gmsg"></div>
+        <div id="menu">
+            <button id="open-inst">Game Instructions</button>
+            <button id="start">Start</button>
+            <button>Pause</button>
+            <button>Play</button>
+            <button id="open-trncmpt">Data Analysis</button>
+        </div>
+        <div style="color: #fff; margin: 20px auto;">ML model Prediction: <span id="aimsg">No bullet detected.</span>
+        </div>
+        <div style="color: #fff; margin: 5px auto;">AI Player Lives: <span id="lives"
+                style="color: rgb(16, 218, 33);">0</span></div>
+        <div style="color: #fff; margin: 5px auto;">Human Player Bullet Hits: <span id="hits"
+                style="color: rgb(235, 26, 12);">0</span></div>
+        <canvas id="myCanvas" width="800" height="500"></canvas>
+        <div style="color: #fff; margin-top: 20px;">Your remaining bullet count: <span id="bulletLeft"
+                style="color: rgb(0, 200, 255);">0</span></div>
+        <div id="ctrls-cnt">
+            <span id="left" class="material-symbols-outlined">
+                arrow_back
+            </span>
+            <span id="fire" class="material-symbols-outlined">
+                local_fire_department
+            </span>
+            <span id="right" class="material-symbols-outlined">
+                arrow_forward
+            </span>
         </div>
     </div>
-    <div id="inst">
-        <h1>Instructions on how to play the game: </h1>
-        <div class="img-des">
-            <p>This is your player(human player), the highlighted part(red color) is the head of the player</p>
-            <img src="./assets/images/human_player_head.png" alt="human_player_head" width="100px" />
-        </div>
-        <div class="img-des">
-            <p>This is the AI player, the highlighted part(sky blue) is the head of the player</p>
-            <img src="./assets/images/ai_player_head.png" alt="ai_player_head" width="100px" />
-        </div>
-        <ul>
-            <li>Click play to start the game</li>
-            <li>Click pause to pause the game</li>
-            <li>Use your mouse/trackpad/left arrow/right arrow, to move your player to the left or right</li>
-            <li>Click anywhere with your mouse or trackpad to shoot</li>
-            <li>You only have a limited number of bullets to shoot so aim well</li>
-            <li>Your ammo will reset to the limit again when you catch the green ball with your head</li>
-            <li>You win when your bullet hits the head of the AI player</li>
-            <li>You loose when the bullet of the AI player hits your head</li>
-        </ul>
-        <button id="close-inst" style="margin-bottom: 50px;">Close</button>
     </div>
-    <div id="gmsg"></div>
-    <div id="menu">
-        <button id="open-inst">Game Instructions</button>
-        <button id="start">Start</button>
-        <button>Pause</button>
-        <button>Play</button>
-        <button id="open-trncmpt">Data Analysis</button>
-    </div>
-    <div style="color: #fff; margin: 20px auto;">ML model Prediction: <span id="aimsg">No bullet detected.</span></div>
-    <div style="color: #fff; margin: 5px auto;">AI Player Lives: <span id="lives"
-            style="color: rgb(16, 218, 33);">0</span></div>
-    <div style="color: #fff; margin: 5px auto;">Human Player Bullet Hits: <span id="hits"
-            style="color: rgb(235, 26, 12);">0</span></div>
-    <canvas id="myCanvas" width="800" height="500"></canvas>
-    <div style="color: #fff; margin-top: 20px;">Your remaining bullet count: <span id="bulletLeft"
-            style="color: rgb(0, 200, 255);">0</span></div>
 
     <script type="module" src="./assets/JS/index.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.9.0/dist/tf.min.js"></script>
