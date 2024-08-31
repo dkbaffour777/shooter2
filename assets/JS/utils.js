@@ -1,6 +1,10 @@
 import { ctx } from "./canvas.js";
 import { Game } from "./models/Game.js";
-import { keyDownHandler, keyUpHandler } from "./playerControls.js";
+import {
+  keyDownHandler,
+  keyUpHandler,
+  mobileControls,
+} from "./playerControls.js";
 
 const drawRectangle = (x, y, width, height, color) => {
   ctx.beginPath();
@@ -90,4 +94,6 @@ export function navigationEventListeners() {
 
   document.addEventListener("keydown", keyDownHandler, false);
   document.addEventListener("keyup", keyUpHandler, false);
+
+  mobileControls();
 }

@@ -8,6 +8,7 @@ export class Game {
   }
   #mode = "play";
   #speed = 0;
+  #isMobileView = false;
   getMode() {
     return this.#mode;
   }
@@ -46,5 +47,11 @@ export class Game {
   }
   getSpeed() {
     return this.#speed;
+  }
+  getIsMobileView() {
+    return this.#isMobileView;
+  }
+  setIsMobileView(value) {
+    this.#isMobileView = value;
   }
 }
