@@ -90,6 +90,7 @@ export function navigationEventListeners() {
     const game = new Game();
     game.start();
     document.querySelector("#start").style.display = "none";
+    document.querySelector("#hits").innerHTML = "0";
   });
 
   document.addEventListener("keydown", keyDownHandler, false);

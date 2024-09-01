@@ -38,7 +38,7 @@ export class Game {
     this.intervals.map((interval) => clearInterval(interval));
     setTimeout(() => {
       alert(msg);
-      document.location.reload();
+      document.querySelector("#start").style.display = "block";
     }, 1000);
     isSaveBulletData && ai_player.saveCollectedData();
   }
